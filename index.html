@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fernando Penedo — Front-end Developer & Web Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #080808;
+    --bg2: #111111;
+    --bg3: #181818;
+    --accent: rgb(0, 141, 223);
+    --accent2: #7B61FF;
+    --text: #EBEBEB;
+    --muted: #888888;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(0, 141, 223,0.25);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 60px; height: 70px;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800; font-size: 1.0rem;
+    color: var(--text); text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 8px 22px; border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); color: #000; }
+
+  /* ---- PROFILE ---- */
+  #home {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 100px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .profile-glow {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 164, 229, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .avatar {
+    width: 110px; height: 110px; border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--bg3);
+    display: flex;
+    margin: 0 auto 28px;
+    position: relative; z-index: 1;
+    overflow: hidden;
+  }
+  .avatar img { width: 110px; height: 140px; margin: -5px 0px 0px 0px; }
+  .profile-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0, 141, 223,0.08);
+    border: 1px solid rgba(0, 141, 223,0.2);
+    color: var(--accent); border-radius: 100px;
+    padding: 5px 14px; font-size: 0.8rem; font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .profile-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  h1 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 80px;
+    font-weight: 800; line-height: 1.08;
+    letter-spacing: -2px;
+    margin-bottom: 10px;
+    position: relative; z-index: 1;
+  }
+  h1 .accent { color: var(--accent); }
+  .profile-role {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 600; color: var(--muted);
+    margin-bottom: 22px;
+    position: relative; z-index: 1;
+  }
+  .profile-bio {
+    max-width: 520px; color: var(--muted);
+    font-size: 1rem; margin-bottom: 36px;
+    position: relative; z-index: 1;
+  }
+  .profile-btns { display: flex; gap: 14px; justify-content: center; position: relative; z-index: 1; }
+  .btn-primary {
+    background: var(--accent); color: #000;
+    border: none; padding: 13px 30px;
+    border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border); padding: 13px 30px;
+    border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--text); transform: translateY(-2px); }
+
+  /* ---- SECTIONS ---- */
+  section { padding: 100px 60px; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 12px; display: block;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 48px; line-height: 1.15;
+  }
+
+  /* ---- ABOUT ---- */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 70px; align-items: center;
+  }
+  .about-text p { color: var(--muted); margin-bottom: 20px; font-size: 1rem; }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; margin-top: 30px;
+  }
+  .stat-card {
+    background: var(--bg3);
+    padding: 24px 20px;
+    border: 1px solid var(--border);
+  }
+  .stat-card:first-child { border-radius: 12px 0 0 0; }
+  .stat-card:nth-child(2) { border-radius: 0 12px 0 0; }
+  .stat-card:nth-child(3) { border-radius: 0 0 0 12px; }
+  .stat-card:last-child { border-radius: 0 0 12px 0; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    color: var(--accent); display: block; line-height: 1;
+  }
+  .stat-desc { font-size: 0.82rem; color: var(--muted); margin-top: 6px; }
+  .about-visual {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px;
+  }
+  .lang-row { margin-bottom: 20px; }
+  .lang-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .lang-name { font-size: 0.9rem; font-weight: 500; }
+  .lang-level { font-size: 0.8rem; color: var(--muted); }
+  .bar-track { background: var(--bg2); border-radius: 100px; height: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 100px; background: var(--accent); transition: width 1.2s ease; }
+  .about-visual h3 {
+    font-family: 'Syne', sans-serif; font-size: 1rem;
+    font-weight: 700; margin-bottom: 24px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem;
+  }
+
+  /* ---- SKILLS ---- */
+  #skills { background: var(--bg2); max-width: 100%; padding: 100px 0; }
+  #skills .inner { max-width: 1100px; margin: 0 auto; padding: 0 60px; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .skill-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px 24px;
+    transition: border-color 0.3s, transform 0.2s;
+    cursor: default;
+  }
+  .skill-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+  .skill-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(0,229,190,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; margin-bottom: 18px;
+  }
+  .skill-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1rem;
+    font-weight: 700; margin-bottom: 8px;
+  }
+  .skill-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+  /* ---- EXPERIENCE ---- */
+  .timeline { position: relative; padding-left: 30px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .tl-item { position: relative; margin-bottom: 44px; }
+  .tl-dot {
+    position: absolute; left: -34px; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+  }
+  .tl-date { font-size: 0.78rem; color: var(--accent); font-weight: 500; margin-bottom: 6px; }
+  .tl-role {
+    font-family: 'Syne', sans-serif; font-size: 1.05rem;
+    font-weight: 700; margin-bottom: 4px;
+  }
+  .tl-org { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
+  .tl-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+
+  /* ---- PROJECTS ---- */
+  .filter-row { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 7px 18px; border-radius: 100px; font-size: 0.82rem;
+    font-weight: 500; cursor: pointer; transition: all 0.2s;
+    border: 1px solid var(--border); background: transparent; color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--accent); border-color: var(--accent);
+    color: #000;
+  }
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .proj-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; overflow: hidden;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .proj-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+  .proj-thumb {
+    height: 170px; background: var(--bg3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; position: relative; overflow: hidden;
+  }
+  .proj-thumb::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 141, 223,0.06));
+  }
+  .proj-body { padding: 20px; }
+  .proj-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .proj-tag {
+    font-size: 0.7rem; font-weight: 500; padding: 3px 10px;
+    border-radius: 100px; background: rgba(0, 141, 223,0.08);
+    color: var(--accent); border: 1px solid rgba(0, 141, 223,0.15);
+  }
+  .proj-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 0.95rem;
+    font-weight: 700; margin-bottom: 6px;
+  }
+  .proj-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* ---- CONTACT ---- */
+  #contact { background: var(--bg2); max-width: 100%; padding: 100px 0; }
+  #contact .inner { max-width: 700px; margin: 0 auto; padding: 0 60px; text-align: center; }
+  #contact h2 { margin-bottom: 16px; }
+  #contact .sub { color: var(--muted); margin-bottom: 44px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .form-field {
+    width: 100%; padding: 14px 18px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-field:focus { border-color: var(--accent); }
+  .form-field::placeholder { color: var(--muted); }
+  textarea.form-field { resize: vertical; min-height: 130px; margin-bottom: 14px; width: 100%; }
+  .submit-btn {
+    width: 100%; background: var(--accent); color: #000;
+    border: none; padding: 16px; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    font-weight: 700; cursor: pointer; transition: opacity 0.2s;
+  }
+  .submit-btn:hover { opacity: 0.88; }
+
+  /* ---- FOOTER CTA ---- */
+  .footer-cta {
+    background: var(--bg); padding: 80px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 1100px; margin: 0 auto;
+    border-top: 1px solid var(--border);
+  }
+  .footer-cta h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -1.5px;
+    line-height: 1.1; margin-bottom: 0;
+  }
+  .footer-cta h2 span { color: var(--accent); }
+  .footer-email {
+    color: var(--muted); font-size: 0.9rem; text-decoration: none;
+    display: flex; align-items: center; gap: 8px; transition: color 0.2s;
+  }
+  .footer-email:hover { color: var(--accent); }
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 28px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-copy { font-size: 0.8rem; color: var(--muted); margin: 0px 450px; }
+  .footer-socials { display: flex; gap: 14px; justify-content: center; }
+  .social-link {
+    width: 36px; height: 36px; border-radius: 8px;
+    border: 1px solid var(--border); display: flex;
+    align-items: center; justify-content: center;
+    color: var(--muted); text-decoration: none;
+    font-size: 0.8rem; font-weight: 600;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---- FADE IN ---- */
+  .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    section { padding: 70px 24px; }
+    .about-grid, .exp-grid { grid-template-columns: 1fr; gap: 40px; }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .footer-cta { flex-direction: column; gap: 24px; text-align: center; }
+    footer { flex-direction: column; gap: 18px; }
+    #skills .inner, #contact .inner { padding: 0 24px; }
+  }
+  @media (max-width: 600px) {
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">HOME</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Contact Me</a>
+</nav>
+
+<!-- profile -->
+<div id="home">
+  <div class="profile-glow"></div>
+  <div class="profile-tag">Available for new projects</div>
+  <div class="avatar">
+    <img src="LinkedIn_profile.jpg">
+  </div>
+  <h1>Fernando <span class="accent">Penedo</span></h1>
+  <p class="profile-role">Front-end Developer &amp; Web Designer</p>
+  <p class="profile-bio">Computer Engineering student crafting clean, responsive interfaces — and turning data into insight with Python &amp; R. Based in Brazil, working globally.</p>
+  <div class="profile-btns">
+    <a href="#projects" class="btn-primary">See My Work</a>
+    <a href="#contact" class="btn-outline">Get In Touch</a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <span class="section-label">About Me</span>
+      <h2>Code, Design<br>&amp; Data — all in one.</h2>
+      <p>I'm a <strong>Computer Engineering student</strong> at UFPel with a hands-on background in front-end development and web design, building websites with <strong>HTML5, CSS3, JavaScript, Wix</strong> and <strong>WordPress</strong>.</p>
+      <p>What sets me apart is the blend: I also work in <strong>data analysis and research</strong>, applying Python (Pandas), R, and statistical models to real-world problems in academic settings.</p>
+      <p>I'm obsessively detail-oriented, a fast learner, and fluent in English — ready to deliver high-quality work for teams anywhere in the world.</p>
+      <div class="about-stats">
+        <div class="stat-card">
+          <span class="stat-num">3+</span>
+          <p class="stat-desc">Years building for the web</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">5+</span>
+          <p class="stat-desc">Technologies mastered</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">4</span>
+          <p class="stat-desc">Active roles &amp; projects</p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">3</span>
+          <p class="stat-desc">Languages spoken</p>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual fade-in">
+      <h3>Languages</h3>
+      <div class="lang-row">
+        <div class="lang-header"><span class="lang-name">English</span><span class="lang-level">Advanced (C1)</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%" data-width="90%"></div></div>
+      </div>
+      <div class="lang-row">
+        <div class="lang-header"><span class="lang-name">Portuguese</span><span class="lang-level">Native</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%" data-width="100%"></div></div>
+      </div>
+      <div class="lang-row">
+        <div class="lang-header"><span class="lang-name">Spanish</span><span class="lang-level">Advanced</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%" data-width="88%"></div></div>
+      </div>
+      <div class="lang-row">
+        <div class="lang-header"><span class="lang-name">German</span><span class="lang-level">Intermediate</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%" data-width="55%"></div></div>
+      </div>
+      <div style="margin-top:32px; border-top:1px solid var(--border); padding-top:28px;">
+        <h3 style="margin-bottom:20px;">Education</h3>
+        <p style="font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; margin-bottom:4px;">Computer Engineering</p>
+        <p style="font-size:0.82rem; color:var(--muted); margin-bottom:4px;">Federal University of Pelotas — UFPel</p>
+        <p style="font-size:0.78rem; color:var(--accent);">2015 – 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<div id="skills">
+  <div class="inner">
+    <span class="section-label fade-in">What I Do</span>
+    <h2 class="fade-in">My Stack</h2>
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🌐</div>
+        <h3>HTML5 &amp; CSS3</h3>
+        <p>Semantic markup, responsive layouts with Flexbox &amp; Grid. Pixel-perfect implementations from any design file.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">⚡</div>
+        <h3>JavaScript</h3>
+        <p>DOM manipulation, events, interface logic, and interactive experiences for the modern web.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon" style="background:rgba(123,97,255,0.1);">🔵</div>
+        <h3>Wix &amp; WordPress</h3>
+        <p>Full website builds on Wix and WordPress (Elementor). Custom layouts, visual identity, and content management.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon" style="background:rgba(123,97,255,0.1);">🐍</div>
+        <h3>Python</h3>
+        <p>Data analysis with Pandas, web scraping, numerical methods, and graphical interfaces with Tkinter.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon" style="background:rgba(123,97,255,0.1);">📊</div>
+        <h3>R &amp; Statistics</h3>
+        <p>Linear &amp; multiple regression, generalized linear models, and statistical data analysis in RStudio.</p>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-icon">🎨</div>
+        <h3>Web Design</h3>
+        <p>Visual identity, responsive layouts, branding alignment, and UI design with a strong eye for detail.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <span class="section-label fade-in">Experience</span>
+  <h2 class="fade-in">My Journey</h2>
+  <div class="exp-grid fade-in">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-date">2026 — Present</p>
+        <p class="tl-role">Front-end Developer</p>
+        <p class="tl-org">GAMA Project — UFPel</p>
+        <p class="tl-desc">Development and maintenance of the institutional website. Responsive layouts, visual identity adjustments, and content publication in collaboration with the research team.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-date">May 2025 — Present</p>
+        <p class="tl-role">Research Fellow</p>
+        <p class="tl-org">Federal University of Pelotas</p>
+        <p class="tl-desc">Computational tools applied to teaching and research. Development of solutions for academic use and assistance in workshop creation.</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-date">Sep 2024 — Aug 2025</p>
+        <p class="tl-role">Undergraduate Researcher</p>
+        <p class="tl-org">Federal University of Pelotas</p>
+        <p class="tl-desc">In-depth study of regression models (Simple, Multiple, GLMs). Real-world data analysis using RStudio and Python in practical research contexts.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <p class="tl-date">2018 — Present</p>
+        <p class="tl-role">Academic Developer</p>
+        <p class="tl-org">Federal University of Pelotas</p>
+        <p class="tl-desc">Numerical methods in Python, cache simulator, Tkinter GUI development, web scraping, and statistical studies with Pandas &amp; R.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="border-top:1px solid var(--border);">
+  <span class="section-label fade-in">Portfolio</span>
+  <h2 class="fade-in">Selected Work</h2>
+  <div class="filter-row fade-in">
+    <button class="filter-btn active" onclick="filterProj(this,'all')">All</button>
+    <button class="filter-btn" onclick="filterProj(this,'web')">Web Design</button>
+    <button class="filter-btn" onclick="filterProj(this,'data')">Data &amp; Python</button>
+    <button class="filter-btn" onclick="filterProj(this,'cms')">CMS</button>
+  </div>
+  <div class="projects-grid">
+    <div class="proj-card fade-in" data-cat="web cms">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#0d1f1a,#0a2820);">🌿</div>
+      <div class="proj-body">
+        <div class="proj-tags"><span class="proj-tag">WordPress</span><span class="proj-tag">Elementor</span></div>
+        <h3>GAMA Project Website</h3>
+        <p>Institutional website for a UFPel research project. Responsive layouts &amp; visual identity.</p>
+      </div>
+    </div>
+    <div class="proj-card fade-in" data-cat="data">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#0d0e20,#101430);">📈</div>
+      <div class="proj-body">
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Pandas</span><span class="proj-tag">R</span></div>
+        <h3>Regression Study</h3>
+        <p>Applied statistical models to real-world datasets using RStudio and Python for academic research.</p>
+      </div>
+    </div>
+    <div class="proj-card fade-in" data-cat="data">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#1a0d1a,#200a28);">💻</div>
+      <div class="proj-body">
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Tkinter</span></div>
+        <h3>Cache Simulator</h3>
+        <p>Implementation of a cache simulator with a graphical user interface built in Tkinter.</p>
+      </div>
+    </div>
+    <div class="proj-card fade-in" data-cat="web">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#0f1a10,#0a2010);">🛒</div>
+      <div class="proj-body">
+        <div class="proj-tags"><span class="proj-tag">HTML5</span><span class="proj-tag">CSS3</span><span class="proj-tag">JS</span></div>
+        <h3>Responsive Web UI</h3>
+        <p>Modern landing page with fluid layout, custom animations, and mobile-first design approach.</p>
+      </div>
+    </div>
+    <div class="proj-card fade-in" data-cat="data">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#1a1200,#201800);">🕷️</div>
+      <div class="proj-body">
+        <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">BeautifulSoup</span></div>
+        <h3>Web Scraper</h3>
+        <p>Automated data extraction tool built in Python for collecting &amp; structuring web data.</p>
+      </div>
+    </div>
+    <div class="proj-card fade-in" data-cat="cms web">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#00101a,#001420);">🔧</div>
+      <div class="proj-body">
+        <div class="proj-tags"><span class="proj-tag">Wix</span><span class="proj-tag">Web Design</span></div>
+        <h3>Business Website</h3>
+        <p>Small business website built on Wix — branding, layout, and mobile optimization.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="inner">
+    <span class="section-label fade-in">Contact</span>
+    <h2 class="fade-in">Let's Work<br>Together</h2>
+    <p class="sub fade-in">Have a project in mind? Let's talk.</p>
+    <div class="footer-socials">
+      <a href="https://linkedin.com/in/fernandopenedo-b99535357" class="social-link" target="_blank" title="LinkedIn">in</a>
+      <a href="mailto:penedo@email.com" class="social-link" title="Email">@</a>
+      <a href="https://github.com/penedo97" class="social-link" target="_blank" title="GitHub">gh</a>
+  </div>
+  </div>
+</div>
+
+<!-- FOOTER CTA -->
+<div class="footer-cta">
+  <h2>Let's<br>Build <span>Something</span><br>Great —</h2>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-copy">© 2026 Fernando Penedo. All rights reserved.</p>
+  
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  const bars = document.querySelectorAll('.bar-fill[data-width]');
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.dataset.width;
+        barObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  bars.forEach(b => barObserver.observe(b));
+
+  function filterProj(btn, cat) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.proj-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat.includes(cat)) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>
